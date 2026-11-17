@@ -3,7 +3,10 @@ import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import 'dashboard_screen.dart';
 import 'pedidos_screen.dart';
-import 'menu_screens.dart';
+import 'productos_screen.dart';
+import 'clientes_screen.dart';
+import 'profile_screen.dart';
+import 'create_admin_screen.dart';
 
 /// Estructura principal de navegación de la app.
 /// En web/escritorio usa NavigationRail lateral; en móvil usa Drawer.
@@ -47,7 +50,21 @@ class _MainScreenState extends State<MainScreen> {
           PopupMenuButton<String>(
             icon: const Icon(Icons.account_circle, color: AppColors.yellow),
             onSelected: (value) {
-              if (value == 'logout') _logout();
+              if (value == 'profile') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ProfileScreen(storage: widget.storage),
+                  ),
+                );
+              } else if (value == 'create_admin') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const CreateAdminScreen(),
+                  ),
+                );
+              } else if (value == 'logout') {
+                _logout();
+              }
             },
             itemBuilder: (context) => [
               PopupMenuItem<String>(
@@ -71,6 +88,26 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     const Divider(),
+                  ],
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'profile',
+                child: Row(
+                  children: [
+                    Icon(Icons.person, color: AppColors.red),
+                    SizedBox(width: 8),
+                    Text('Mi Perfil'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'create_admin',
+                child: Row(
+                  children: [
+                    Icon(Icons.person_add, color: AppColors.yellowDark),
+                    SizedBox(width: 8),
+                    Text('Crear Administrador'),
                   ],
                 ),
               ),
